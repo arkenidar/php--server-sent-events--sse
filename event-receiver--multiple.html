@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>event receiver</title>
+</head>
+
+<body>
+
+	<h2>SSE event receiver</h2>
+	<div id="output1">(output1: no output received from HTTP server , are you using it ?)</div>
+	<div id="output2">(output2: no output received from HTTP server , are you using it ?)</div>
+
+	<h2>HTTP server (multi-threaded or not, please note)</h2>
+	<p>first launch the *PHP-enabled* HTTP-server this way or similar:</p>
+	<p>php -S localhost:8080 -t ~/code/000-categories/ht-web/ajax/sse</p>
+	<a href="http://localhost:8080/event-receiver.html">
+		http://localhost:8080/event-receiver.html</a>
+
+	<script>
+		var eventSource1 = new EventSource("event-source--time.php") // PHP server-endpoint
+		eventSource1.addEventListener("sse_event_time", output_sse_event_1)
+		function output_sse_event_1(event) {
+			output1.textContent = `showing received *live* data: "${event.data}". `
+		}
+
+		var eventSource2 = new EventSource("event-source--counter.php") // PHP server-endpoint
+		eventSource2.addEventListener("sse_event_counter", output_sse_event_2)
+		function output_sse_event_2(event) {
+			output2.textContent = `showing received *live* data: "${event.data}". `
+		}
+	</script>
+
+</body>
+
+</html>
